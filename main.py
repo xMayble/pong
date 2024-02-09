@@ -10,7 +10,7 @@ screen.bgcolor("black")
 screen.title("Pong")
 screen.tracer(0)
 
-l_paddle = Paddle((-370, 0))
+l_paddle = Paddle((-360, 0))
 r_paddle = Paddle((360, 0))
 ball = Ball()
 scoreboard = Scoreboard()
@@ -23,25 +23,27 @@ screen.onkey(l_paddle.go_down, "s")
 
 game_is_on = True 
 while game_is_on:
-    time.sleep(0.1)
+    time.sleep(ball.move_speed)
     screen.update()
     ball.move()
 
     # Detect collision with wall
-    if ball.ycor() > 300 or ball.ycor() < -300:
+    if ball.ycor() > 280 or ball.ycor() < -280:
         ball.bounce_y()
 
-    # Detect collision with r_paddle
-    if ball.distance(r_paddle) < 50 and ball.xcor() > 320 or ball.distance(l_paddle) < 50 and ball.xor() < -320:
+    # Detect collision with r_paddle and l_paddle
+    if (ball.distance(r_paddle) < 50 and ball.xcor() > 320) or (ball.distance(l_paddle) < 50 and ball.xor() < -300):
         ball.bounce_x()
 
     # Detect when right paddle misses
     if ball.xcor() > 380:
         ball.reset_position()
+        scoreboard.l_point()
 
     # Detect when left paddle misses
     if ball.xcor() < -380:
         ball.reset_position()
+        scoreboard.r_point()
         
 
 
